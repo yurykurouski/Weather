@@ -1,16 +1,9 @@
-import cities from '../json/cities.json';
+import citiesService from './cities-service.js';
+import weatherService from './weather-service.js';
 
-async function getData(cityName) {
-  const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=7&appid=33178d46dea4c98a92d98aa6ea4ebc24&units=metric`, {
-    method: 'GET',
-  });
-
-  return await response.json();
-}
-
-const form = document.querySelector('#search');
+const form = document.getElementById('search');
 const container = document.querySelector('.container');
-const searchInput = form.querySelector('input');
+const searchInput = document.querySelector('#search input')
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -19,29 +12,40 @@ form.addEventListener('submit', async (event) => {
 
   const cityName = formData.get('city-name');
 
-  getData(cityName).then((data) => {
-    const ul = document.createElement('ul');
+  const data = await weatherService.getForecast(cityName);
 
-    const listItems = data.list.map(day => {
-      const date = new Date(day.dt * 1000);
-      return `<li>Day: ${date.toLocaleDateString()} Temp: ${day.temp.day}</li>`
-    });
+  const currentWeather = await weatherService.getCurrentWeather(cityName);
 
-    ul.innerHTML = listItems.join('');
-    container.appendChild(ul);
+  const div = document.createElement('div');
+
+  div.innerHTML = `
+    <span>Current temp is ${currentWeather.main.temp}</span>
+  `
+
+  const ul = document.createElement('ul');
+
+  const listItems = data.list.map(day => {
+    const date = new Date(day.dt * 1000);
+    return `<li>Day: ${date.toLocaleDateString()} Temp: ${day.temp.day}</li>`
   });
+
+  ul.innerHTML = listItems.join('');
+  container.appendChild(ul);
+  container.appendChild(div);
 });
 
-searchInput.addEventListener('change', (event) => {
-  const { value } = event.target;
+searchInput.addEventListener('input', async (event) => {
+  const {
+    value
+  } = event.target;
 
-  const match = cities.reduce((result, city) => {
-    if (city.name.toUpperCase().includes(value).toUpperCase()) {
-      return [...result, city];
+  const cities = await citiesService.getCities();
+
+  const match = cities.filter((city) => {
+    if (city.name.toUpperCase().includes(value.toUpperCase())) {
+      return true;
     }
-
-    return result;
-  }, []);
-  
+    return false;
+  });
   console.log(match);
 });
