@@ -3,7 +3,8 @@ import weatherService from './weather-service.js';
 
 const form = document.getElementById('search');
 const container = document.querySelector('.container');
-const searchInput = document.querySelector('#search input')
+const searchInput = document.querySelector('#search input');
+const listContainer = form.querySelector('#list-container');
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -32,6 +33,40 @@ form.addEventListener('submit', async (event) => {
   ul.innerHTML = listItems.join('');
   container.appendChild(ul);
   container.appendChild(div);
+
+  removeListContainer();
+});
+
+
+function removeListContainer() {
+  listContainer.style.display = 'none';
+}
+
+listContainer.addEventListener('click', (event) => {
+  console.log(event.target);
+});
+
+function renderCityList(cities) {
+  listContainer.style.display = 'block';
+
+  if (!cities.length) {
+    listContainer.innerHTML = `<div>No match</div>`;
+    return
+  }
+
+  const listItems = cities.map(city => {
+    return `<div class='list-item'><strong>${city.name}</strong> ${city.country}</div>`
+  });
+
+  listContainer.innerHTML = listItems.join('');
+}
+
+/* searchInput.addEventListener('blur', (event) => { 
+  removeListContainer();
+}); */
+
+searchInput.addEventListener('focus', () => {
+  listContainer.style.display = 'block';
 });
 
 searchInput.addEventListener('input', async (event) => {
@@ -47,5 +82,8 @@ searchInput.addEventListener('input', async (event) => {
     }
     return false;
   });
-  console.log(match);
+
+  renderCityList(match.slice(0, 5));
 });
+
+//! поробовать сделать чтобы в инпут добавлялось имя города пр клике на выпадающий список

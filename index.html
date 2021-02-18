@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +11,18 @@
 </head>
 
 <body>
-  
+
   <div class="container">
     <form id='search'>
-      <input type="text" name='city-name'>
+      <div class='autocomplete'>
+        <input type="text" name='city-name'>
+        <div id='list-container' class='list-container' style="display: none;"></div>
+      </div>
       <button type="submit">Search</button>
     </form>
   </div>
 
   <script type="module" src="./js/script.js"></script>
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -11,4 +11,33 @@
   height: 100vh;
 
   flex-direction: column;
+}
+
+form {
+  display: flex;
+}
+
+.autocomplete {
+  position: relative;
+}
+
+.list-container {
+  position: absolute;
+
+  border: 1px solid gray;
+  border-top: none;
+
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-item{
+  padding: 5px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+.list-item:hover{
+  background-color: gray;
 }
