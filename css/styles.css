@@ -29,15 +29,69 @@ form {
 
   width: 100%;
   box-sizing: border-box;
+
+  background-color: #ffff;
 }
 
-.list-item{
+.list-item {
   padding: 5px;
 
   cursor: pointer;
 
   transition: 0.2s;
 }
-.list-item:hover{
+
+.list-item:hover {
   background-color: gray;
+}
+
+.spinner {
+  display: block;
+  border: 3px solid blue;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+
+  animation-name: spin;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.loader{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  top: 0;
+  left: 0;
+
+  background: rgba(1, 1, 1, 0.5);
+
+  width: 100vw;
+  height: 100vh;
+}
+
+.input-loader {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+
+  width: 8px;
+  height: 8px;
+}
+
+.loader .spinner{
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
