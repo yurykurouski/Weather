@@ -1,15 +1,14 @@
 export default function debounce(func, ms) {
-  let isReady = true;
+  let timeout;
 
   return function (...rest) {
-    if (!isReady) {
-      return
+    function later() {
+      clearTimeout(timeout);
+
+      func(...rest);
     }
+    clearTimeout(timeout);
 
-    isReady = false;
-
-    func(...rest);
-
-    setTimeout(() => isReady = true, ms);
-  }
+    timeout = setTimeout(later, ms);
+  };
 }

@@ -101,7 +101,7 @@ searchInput.addEventListener('focus', () => {
   listContainer.style.display = 'block';
 });
 
-searchInput.addEventListener('input', async (event) => {
+searchInput.addEventListener('input', debounce(async (event) => {
   const {
     value
   } = event.target;
@@ -120,6 +120,5 @@ searchInput.addEventListener('input', async (event) => {
   });
 
   renderCityList(match.slice(0, 5));
-}); 
+}, 300)); 
 
-//! посмотри, мб получится сделать работающий дебоунсер(чтобы срабатывал на последнем введенном значении)
